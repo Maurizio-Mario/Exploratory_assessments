@@ -52,3 +52,21 @@ legend("topright", col=c("black", "red", "blue"), lty=1, lwd=2,
 axis(1, c(0, 1440, 2880), c("Thu", "Fri", "Sat"))
 
 ## Plot 4
+win.graph()
+old.par <- par(mfrow = c(2, 2))
+plot(pa1_dat$Global_active_power, xaxt = "n", type = "l", ylab = "Global Active Power (kilowatts)") 
+axis(1, c(0, 1440, 2880), c("Thu", "Fri", "Sat"))
+plot(pa1_dat$Voltage, type = "l",  xaxt = "n", ylab = "Voltage")
+axis(1, c(0, 1440, 2880), c("Thu", "Fri", "Sat"))
+with(pa1_dat, {
+        plot(Sub_metering_1 ~ date_time, type="l",
+             ylab="Energy sub metering", xlab="")
+        lines(Sub_metering_2 ~ date_time, col='Red')
+        lines(Sub_metering_3 ~ date_time, col='Blue')
+})
+
+legend("topright", col=c("black", "red", "blue"), lty=1, lwd=2, 
+       legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+plot(pa1_dat$Global_reactive_power, xaxt = "n", type = "l", ylab = "Global_reactive_power", xlab = "datetime")
+axis(1, c(0, 1440, 2880), c("Thu", "Fri", "Sat"))
+par(old.par)
