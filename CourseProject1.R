@@ -3,11 +3,12 @@ back.to.slash <- function(x) {gsub(" \\ ", "/", x)}
 path2 <- back.to.slash(path)
 path2
 
-pa1_dat <- read.table(path2, TRUE, ";")
+pa1_dat <- read.table(path2, header = TRUE, sep = ";", dec = ".", stringsAsFactors = FALSE, na.strings = "?")
 
 head(pa1_dat)
 class(pa1_dat$Date)
-pa1_dat$Date <- as.Date(pa1_dat$Date, format = "%d / %m / %Y")
+pa1_dat$Date <- as.Date(pa1_dat$Date)
+
 ## Problem with conversion from string to time. Not performed.
 pa1_dat$Time <- as.POSIXct(pa1_dat$Time, format = "%H : %M : %S")
 
@@ -21,6 +22,17 @@ head(pa1_dat)
 sum(is.na(pa1_dat))
 
 ## Plot 1
-hist(as.integer(pa1_dat$Global_active_power), main = "Global Active Power", xlab = "Global Active Power (kilowatts)", col = 2)
-str(pa1_dat$Global_active_power)
-example("points")
+
+hist(pa1_dat$Global_active_power, main = "Global Active Power", xlab = "Global Active Power (kilowatts)", col = 2)
+summary(pa1_dat$Global_active_power)
+
+## Plot 2
+win.graph()
+
+plot(pa1_dat$Global_active_power, xaxt = "n", type = "l", ylab = "Global Active Power (kilowatts)") 
+axis(1, c(0, 1440, 2880), c("Thu", "Fri", "Sat"))
+
+## plot 3
+win.graph()
+plot(pa1_dat$Sub_metering_1, pa1_dat$Sub_metering_2, pa1_dat$Sub_metering_3, type = "p")
+str(pa1_dat$Sub_metering_1)
